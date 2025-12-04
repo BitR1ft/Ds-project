@@ -2,7 +2,7 @@
   INTEGRATED CYBER THREAT DETECTION    
         SECURITY REPORT                
 ========================================
-Generated: Thu Dec  4 08:56:34 2025
+Generated: Thu Dec  4 09:05:43 2025
 
 
 --- THREAT SUMMARY ---
@@ -19,9 +19,9 @@ Total Events Logged: 3
 None detected
 
 --- DETAILED EVENT LOG ---
-[Thu Dec  4 08:56:34 2025] [HIGH] Malware Detection: Signature found: trojan
-[Thu Dec  4 08:56:34 2025] [HIGH] Malware Detection: Signature found: malicious_payload
-[Thu Dec  4 08:56:34 2025] [CRITICAL] Ransomware Detection: Suspicious file encryption behavior detected
+[Thu Dec  4 09:05:43 2025] [HIGH] Malware Detection: Signature found: trojan
+[Thu Dec  4 09:05:43 2025] [HIGH] Malware Detection: Signature found: malicious_payload
+[Thu Dec  4 09:05:43 2025] [CRITICAL] Ransomware Detection: Suspicious file encryption behavior detected
 
 ========================================
            END OF REPORT                
