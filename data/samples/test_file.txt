@@ -1,0 +1,5 @@
+This is a test file that contains some malicious content.
+It has a trojan hidden in the code.
+Also contains a virus signature.
+There might be a backdoor in this system.
+The ransomware_key was found during analysis.
