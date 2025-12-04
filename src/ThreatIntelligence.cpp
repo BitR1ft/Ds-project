@@ -3,6 +3,9 @@
 #include <fstream>
 #include <ctime>
 
+// Buffer size for timestamp formatting
+const int TIMESTAMP_BUFFER_SIZE = 26;
+
 ThreatIntelligence::ThreatIntelligence() {
     threatDB = new HashTable();
     eventLog = new LinkedList();
@@ -40,9 +43,9 @@ void ThreatIntelligence::addMalwareResults(const std::vector<std::pair<int, std:
         addThreat("malware", match.second);
         
         time_t now = time(0);
-        char timestamp[26];
+        char timestamp[TIMESTAMP_BUFFER_SIZE];
         ctime_r(&now, timestamp);
-        timestamp[24] = '\0';
+        timestamp[TIMESTAMP_BUFFER_SIZE - 2] = '\0';  // Remove newline
         
         logEvent(timestamp, "Malware Detection", 
                 "Signature found: " + match.second, "HIGH");
@@ -52,9 +55,9 @@ void ThreatIntelligence::addMalwareResults(const std::vector<std::pair<int, std:
 void ThreatIntelligence::addRansomwareAlert(bool detected) {
     if (detected) {
         time_t now = time(0);
-        char timestamp[26];
+        char timestamp[TIMESTAMP_BUFFER_SIZE];
         ctime_r(&now, timestamp);
-        timestamp[24] = '\0';
+        timestamp[TIMESTAMP_BUFFER_SIZE - 2] = '\0';  // Remove newline
         
         addThreat("ransomware", "behavior_pattern");
         logEvent(timestamp, "Ransomware Detection",
@@ -68,10 +71,10 @@ void ThreatIntelligence::addNetworkThreats(MaxHeap* threats) {
         
         addThreat("ip", threat->source);
         
-        char timestamp[26];
+        char timestamp[TIMESTAMP_BUFFER_SIZE];
         time_t ts = threat->timestamp;
         ctime_r(&ts, timestamp);
-        timestamp[24] = '\0';
+        timestamp[TIMESTAMP_BUFFER_SIZE - 2] = '\0';  // Remove newline
         
         logEvent(timestamp, threat->type, threat->description,
                 threat->severity > 7 ? "CRITICAL" : "HIGH");
