@@ -28,3 +28,18 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.log
+
+# Reports
+threat_report.txt
+scan_report.txt
+
+# Configuration and test files
+config.json
+test_scan/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python

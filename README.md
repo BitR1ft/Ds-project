@@ -7,23 +7,43 @@
 
 A comprehensive security framework combining multiple threat detection mechanisms using advanced Data Structures. This project demonstrates the practical application of data structures in cybersecurity.
 
+**NEW in v2.0:** GUI-based Mini Antivirus with daily usage features including custom folder scanning, network traffic monitoring, and user-friendly interface!
+
 ## Features
 
-### 1. Malware Signature Scanner
+### Core Detection Modules
+
+#### 1. Malware Signature Scanner
 - **Data Structures:** Trie, Aho-Corasick Automaton
 - **Functionality:** Multi-pattern malware signature detection in files
 
-### 2. Ransomware Behavior Detector
+#### 2. Ransomware Behavior Detector
 - **Data Structures:** Graphs, DFS/BFS
 - **Functionality:** File system traversal analysis and ransomware pattern detection
 
-### 3. Network Intrusion Detection System (IDS)
+#### 3. Network Intrusion Detection System (IDS)
 - **Data Structures:** AVL Tree, Priority Queue (Max-Heap)
 - **Functionality:** Packet analysis and intrusion detection
 
-### 4. Threat Intelligence & Reporting Engine
+#### 4. Threat Intelligence & Reporting Engine
 - **Data Structures:** Hash Tables, Linked Lists
 - **Functionality:** Centralized threat database and comprehensive reporting
+
+### NEW: Daily Usage Features (v2.0)
+
+#### 5. GUI Mini Antivirus Application
+- **User-friendly graphical interface** for easy operation
+- **Custom folder scanning** - Select and scan any directory
+- **Real-time network monitoring** - Constant traffic analysis
+- **Threat detection dashboard** - View all security events
+- **Scan history tracking** - Monitor all previous scans
+- **Configuration management** - Customize settings
+
+#### 6. CLI Application for Servers
+- **Command-line interface** for headless systems
+- **Automated scanning** - Scriptable for cron jobs
+- **Interactive menu** - Easy navigation
+- **Detailed reports** - Comprehensive scan results
 
 ## System Architecture
 
@@ -62,6 +82,34 @@ g++ -std=c++17 -I./include src/*.cpp -o threat_detection_suite
 
 ## Running the Suite
 
+### Option 1: GUI/CLI Launcher (Recommended)
+```bash
+./run_antivirus.sh
+```
+Automatically detects your environment and launches the appropriate interface.
+
+### Option 2: GUI Application
+```bash
+python3 gui_antivirus.py
+```
+Launches the graphical user interface with:
+- Folder scanning with file browser
+- Network traffic monitoring
+- Real-time threat detection
+- Interactive dashboard
+
+### Option 3: CLI Application
+```bash
+# Interactive menu
+python3 antivirus_cli.py
+
+# Direct commands
+python3 antivirus_cli.py scan --path /path/to/folder
+python3 antivirus_cli.py monitor --duration 120
+python3 antivirus_cli.py status
+```
+
+### Option 4: Original C++ Detection Suite
 ```bash
 ./threat_detection_suite
 ```
@@ -107,10 +155,31 @@ Run test cases:
 ## Documentation
 
 Complete project documentation is available in the `docs/` directory:
+- **[GUI User Guide](GUI_USER_GUIDE.md)** - Complete guide for the new GUI/CLI applications
 - Technical Documentation
 - UML Diagrams
 - Project Report
 - User Manual
+
+### Quick Start Guides
+
+**For GUI Users:**
+1. Run `./run_antivirus.sh`
+2. Click "Browse" to select a folder
+3. Click "Start Scan" to scan for threats
+4. View results in the dashboard
+
+**For CLI Users:**
+1. Run `python3 antivirus_cli.py`
+2. Select option 1 for folder scanning
+3. Enter folder path when prompted
+4. View scan results and report
+
+**For Automation:**
+```bash
+# Add to crontab for daily scans
+0 2 * * * cd /path/to/Ds-project && python3 antivirus_cli.py scan --path /home/user
+```
 
 ## License
 
