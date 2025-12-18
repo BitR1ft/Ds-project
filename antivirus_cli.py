@@ -13,6 +13,13 @@ import argparse
 import subprocess
 from pathlib import Path
 from datetime import datetime
+from antivirus_constants import (
+    DEFAULT_MALWARE_SIGNATURES,
+    SUSPICIOUS_FILE_EXTENSIONS,
+    DEFAULT_BLACKLIST_IPS,
+    DEFAULT_CONFIG,
+    MAX_FILE_SIZE
+)
 
 class AntivirusCLI:
     """Command-line interface for the mini antivirus"""
@@ -23,13 +30,8 @@ class AntivirusCLI:
         
     def load_config(self):
         """Load application configuration"""
-        default_config = {
-            "last_scan_path": str(Path.home()),
-            "scan_history": [],
-            "signature_path": "data/malware_signatures.txt",
-            "blacklist_path": "data/blacklisted_ips.txt",
-            "report_path": "threat_report.txt"
-        }
+        default_config = DEFAULT_CONFIG.copy()
+        default_config["last_scan_path"] = str(Path.home())
         
         try:
             if os.path.exists(self.config_file):
@@ -38,7 +40,8 @@ class AntivirusCLI:
             else:
                 self.config = default_config
                 self.save_config()
-        except:
+        except Exception as e:
+            print(f"Error loading config: {e}")
             self.config = default_config
     
     def save_config(self):
@@ -71,11 +74,7 @@ class AntivirusCLI:
                 print(f"Error loading signatures: {e}")
         
         if not signatures:
-            signatures = [
-                "malicious_payload", "trojan", "virus", "ransomware", 
-                "backdoor", "keylogger", "spyware", "adware",
-                "worm", "rootkit", "exploit", "malware"
-            ]
+            signatures = DEFAULT_MALWARE_SIGNATURES
             print(f"✓ Using {len(signatures)} default signatures")
         
         return signatures
@@ -86,17 +85,15 @@ class AntivirusCLI:
         
         try:
             # Check file extension
-            suspicious_extensions = ['.exe', '.dll', '.bat', '.cmd', '.vbs', '.js', '.ps1', '.sh']
             ext = os.path.splitext(filepath)[1].lower()
             
-            if ext in suspicious_extensions:
+            if ext in SUSPICIOUS_FILE_EXTENSIONS:
                 result["threats"].append(f"Suspicious file type: {ext}")
             
             # Read file content (limit size)
-            max_size = 10 * 1024 * 1024  # 10 MB
             file_size = os.path.getsize(filepath)
             
-            if file_size > max_size:
+            if file_size > MAX_FILE_SIZE:
                 return result
             
             # Check for signatures
@@ -107,8 +104,9 @@ class AntivirusCLI:
                     if signature.lower() in content:
                         result["threats"].append(f"Malware signature: {signature}")
         
-        except Exception as e:
-            pass  # Skip unreadable files
+        except Exception:
+            # Skip unreadable files (binary files, permission denied, etc.)
+            pass
         
         return result
     
@@ -272,7 +270,7 @@ class AntivirusCLI:
                 print(f"Error loading blacklist: {e}")
         
         if not blacklist:
-            blacklist = ["192.168.1.100", "10.0.0.50", "203.0.113.5"]
+            blacklist = DEFAULT_BLACKLIST_IPS
         
         return blacklist
     

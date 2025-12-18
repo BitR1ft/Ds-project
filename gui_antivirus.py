@@ -16,6 +16,13 @@ import subprocess
 import json
 from datetime import datetime
 from pathlib import Path
+from antivirus_constants import (
+    DEFAULT_MALWARE_SIGNATURES,
+    SUSPICIOUS_FILE_EXTENSIONS,
+    DEFAULT_BLACKLIST_IPS,
+    DEFAULT_CONFIG,
+    MAX_FILE_SIZE
+)
 
 class MiniAntivirusGUI:
     """Main GUI application for the mini antivirus"""
@@ -44,14 +51,8 @@ class MiniAntivirusGUI:
         
     def load_config(self):
         """Load application configuration"""
-        default_config = {
-            "last_scan_path": str(Path.home()),
-            "scan_history": [],
-            "network_monitoring": False,
-            "auto_scan": False,
-            "signature_path": "data/malware_signatures.txt",
-            "blacklist_path": "data/blacklisted_ips.txt"
-        }
+        default_config = DEFAULT_CONFIG.copy()
+        default_config["last_scan_path"] = str(Path.home())
         
         try:
             if os.path.exists(self.config_file):
@@ -59,7 +60,8 @@ class MiniAntivirusGUI:
                     self.config = json.load(f)
             else:
                 self.config = default_config
-        except:
+        except Exception as e:
+            print(f"Error loading config: {e}")
             self.config = default_config
     
     def save_config(self):
@@ -298,13 +300,9 @@ class MiniAntivirusGUI:
             except Exception as e:
                 print(f"Error loading signatures: {e}")
         
-        # Add some default signatures if file doesn't exist
+        # Use default signatures if file doesn't exist or is empty
         if not signatures:
-            signatures = [
-                "malicious_payload", "trojan", "virus", "ransomware", 
-                "backdoor", "keylogger", "spyware", "adware",
-                "worm", "rootkit", "exploit", "malware"
-            ]
+            signatures = DEFAULT_MALWARE_SIGNATURES
         
         return signatures
     
@@ -314,17 +312,15 @@ class MiniAntivirusGUI:
         
         try:
             # Check file extension for suspicious types
-            suspicious_extensions = ['.exe', '.dll', '.bat', '.cmd', '.vbs', '.js', '.ps1']
             ext = os.path.splitext(filepath)[1].lower()
             
-            if ext in suspicious_extensions:
+            if ext in SUSPICIOUS_FILE_EXTENSIONS:
                 result["threats"].append(f"Suspicious file type: {ext}")
             
             # Read file content (limit size for performance)
-            max_size = 10 * 1024 * 1024  # 10 MB
             file_size = os.path.getsize(filepath)
             
-            if file_size > max_size:
+            if file_size > MAX_FILE_SIZE:
                 return result
             
             # Read and check for signatures
@@ -335,8 +331,9 @@ class MiniAntivirusGUI:
                     if signature.lower() in content:
                         result["threats"].append(f"Malware signature detected: {signature}")
         
-        except Exception as e:
-            pass  # Skip files that can't be read
+        except Exception:
+            # Skip files that can't be read (binary files, permission denied, etc.)
+            pass
         
         return result
     
@@ -400,9 +397,9 @@ class MiniAntivirusGUI:
             except Exception as e:
                 print(f"Error loading blacklist: {e}")
         
-        # Add some default blacklisted IPs
+        # Use default blacklist if file doesn't exist or is empty
         if not blacklist:
-            blacklist = ["192.168.1.100", "10.0.0.50", "203.0.113.5"]
+            blacklist = DEFAULT_BLACKLIST_IPS
         
         return blacklist
     
