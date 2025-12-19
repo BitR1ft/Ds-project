@@ -9,6 +9,21 @@ A comprehensive security framework combining multiple threat detection mechanism
 
 **NEW in v2.0:** GUI-based Mini Antivirus with daily usage features including custom folder scanning, network traffic monitoring, and user-friendly interface!
 
+## 📚 NEW: Comprehensive Learning Guide!
+
+**Want to understand this entire project from scratch?** Check out our complete learning guide!
+
+👉 **[Start Learning: learning/README.md](learning/README.md)** 👈
+
+- ✅ **18 comprehensive sessions** (18-25 hours of content)
+- ✅ **Zero prerequisites** - Designed for absolute beginners
+- ✅ **Hands-on exercises** - Code examples and practice problems
+- ✅ **Step-by-step walkthrough** - From basics to advanced topics
+- ✅ **All 7 data structures explained** - Trie, Aho-Corasick, Graph, AVL, Heap, Hash, LinkedList
+- ✅ **Real-world applications** - Cybersecurity context throughout
+
+Perfect for students, self-learners, or anyone wanting to understand how data structures solve real problems!
+
 ## Features
 
 ### Core Detection Modules
